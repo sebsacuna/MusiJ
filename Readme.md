@@ -1,6 +1,6 @@
 # JMusical
 
-JMusical is a Plugin for Imagej which implements [MUSICAL](https://arxiv.org/abs/1611.09086) an algorithm
+JMusical is a Plugin for Imagej which implements [MUSICAL](https://arxiv.org/abs/1611.09086), an algorithm
 created by [Krishna Agarwal](https://sites.google.com/site/uthkrishth) for obtaining super-resolution
 based on Eigenvalue decomposition.
 
@@ -66,3 +66,12 @@ differ from the 1 thread version. However this difference should not be bigger t
 0.01\%.
 
 ## Batch mode
+
+To process several files, the best option is to use a Macro. However, the current plugin 
+does not work well with the Batch processing included in Fiji, so take care.
+
+## About the author
+
+For any problem or comment, please don't hesitate on contact me at `sebacunam@gmail.com`
+
+
