@@ -32,7 +32,9 @@ In ImageJ / Fiji:
 - Add 'http://sites.imagej.net/Sebsacuna/' to the list
 - Download all the dependencies
 
-Among the dependencies it is `javacpp-1.4-2` which replaces the `javacpp-0.11` included in Fiji. 
+All matrices operations are based on Nd4j, and in the sites it is included the MKL dependencies
+also. These dependencies are quite heavy. Among the other dependencies it is `javacpp-1.4-2` 
+which replaces the `javacpp-0.11` included in Fiji.
 
 ## How to use 
 
