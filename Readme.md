@@ -5,7 +5,7 @@ created by [Krishna Agarwal](https://sites.google.com/site/uthkrishth) for obtai
 based on Eigenvalue decomposition.
 
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
-version published on [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing)
+version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing).
 
 ## About JMusical 0.9
 
@@ -69,6 +69,10 @@ differ from the 1 thread version. However this difference should not be bigger t
 
 To process several files, the best option is to use a Macro. However, the current plugin 
 does not work well with the Batch processing included in Fiji, so take care.
+
+### Examples
+
+TODO
 
 ## About the author
 
