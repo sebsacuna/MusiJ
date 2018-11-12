@@ -23,6 +23,13 @@ The tests show a difference no greater to 1e-4 with the values computed in Matla
 The current version allows us to autosave the results in addition with a text file
 indicating the parameters used.
 
+## Instructions
+
+We have released a video tutorial with the instruction of how to install and use MUSICAL in FIJI. You can watch
+it directly on Youtube:
+
+
+
 ## How to install
 
 In ImageJ / Fiji:
