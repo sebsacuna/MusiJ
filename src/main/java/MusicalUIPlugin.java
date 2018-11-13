@@ -28,11 +28,11 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
 
 @Plugin(type = Command.class,
         initializer = "updateParameters",
-        label = "JMusical v0.9 - 2018",
+        label = "JMusical v0.92 - 2018",
         headless = true, menuPath = "Plugins>Musical>Musical UI")
 public class MusicalUIPlugin extends InteractiveImageCommand {
 
-    private static final String TITLE_LABEL =   "JMusical v0.9";
+    private static final String TITLE_LABEL =   "JMusical v0.92";
     private static final String CREATOR =       "Krishna Agarwal [uthkrishth@gmail.com]";
     private static final String DEVELOPER =     "Sebastian Acuna [sebacuma@gmail.com]\n";
     private static final String OPTI_LABEL =    "----- Optical parameters ---";
@@ -84,6 +84,9 @@ public class MusicalUIPlugin extends InteractiveImageCommand {
     @Parameter(type = ItemIO.OUTPUT)
     private Dataset outputImageDataset;
 
+    @Parameter(label = "To be applied to: ", visibility = ItemVisibility.MESSAGE, persist = false)
+    private String image_name = "";
+
     /*
      * Parameters
      */
@@ -91,16 +94,16 @@ public class MusicalUIPlugin extends InteractiveImageCommand {
     @Parameter(visibility = ItemVisibility.MESSAGE, label = " ")
     private final String optical_param = OPTI_LABEL;
 
-    @Parameter(callback = "updateParameters", label = "Emission [nm]", description = "Wavelength of emission")
+    @Parameter(label = "Emission [nm]", description = "Wavelength of emission in nanometers")
     private double em = 510;
 
-    @Parameter(callback = "updateParameters", label = "Numerical Aperture", description = "Numerical Aperture of the optical system")
+    @Parameter(label = "Numerical Aperture", description = "Numerical Aperture of the optical system")
     private double na = 1.49;
 
-    @Parameter(callback = "updateParameters", label = "Magnification", description = "Magnification of the optical system")
+    @Parameter(label = "Magnification", description = "Optical magnification of the optical system")
     private double mag = 100;
 
-    @Parameter(callback = "updateParameters", label = "Pixel size [nm]", description = "Size of the pixel respect to the real image")
+    @Parameter(label = "Pixel size [nm]", description = "Physical size of the camera's pixel in nanometers")
     private double pixsize = 6500;
 
     @Parameter(label = "N_w", visibility = ItemVisibility.MESSAGE, persist = false,
@@ -112,16 +115,10 @@ public class MusicalUIPlugin extends InteractiveImageCommand {
     @Parameter(label = "Plot singular values", callback = "SingularValuesCallback")
     private Button plot_s_values;
 
-    @Parameter(callback = "updateParameters", label = "Subpixels per pixel", description = "Number of subpixels to be calcUlated along one side of each pixel")
-    private int subpixels = 20;
-
-
     /*
      * MUSICAL PARAMETERS
      */
 
-    @Parameter(label = "To be applied to: ", visibility = ItemVisibility.MESSAGE, persist = false)
-    private String image_name = "";
 
     @Parameter(visibility = ItemVisibility.MESSAGE, label = " ")
     private String music_param = MUSI_LABEL;
@@ -132,13 +129,16 @@ public class MusicalUIPlugin extends InteractiveImageCommand {
     @Parameter(label = "Alpha")
     private double alpha = 4;
 
+    @Parameter(callback = "updateParameters", label = "Subpixels per pixel", description = "Number of subpixels to be calcUlated along one side of each pixel")
+    private int subpixels = 20;
+
     @Parameter(label = "Multithreading")
     private boolean multithreading = false;
 
     @Parameter(label = "Threads (if Multithreading)", min = "1")
     private int threads = 1;
 
-    @Parameter(label = "Save logfile")
+    @Parameter(label = "Autosave")
     private boolean save = false;
 
     @Parameter(label = "Output", style = DIRECTORY_STYLE, required = false)

@@ -33,7 +33,7 @@ import java.util.List;
 @Plugin(type = Command.class,
         headless = true,
         menuPath = "Plugins>Musical>Functions>Singular Values",
-        label = "JMusical v0.9 : Singular Values - 2018")
+        label = "JMusical v0.92 : Singular Values - 2018")
 public class SingularPlugin <T extends RealType<T> & NativeType< T >> implements Command {
 
     /*
@@ -63,16 +63,16 @@ public class SingularPlugin <T extends RealType<T> & NativeType< T >> implements
      * Optical parameters
      */
 
-    @Parameter(label = "Emission [nm]", description = "Wavelength of emission")
+    @Parameter(label = "Emission [nm]", description = "Wavelength of emission in nanometers")
     private double em = 510;
 
     @Parameter(label = "Numerical Aperture", description = "Numerical Aperture of the optical system")
     private double na = 1.49;
 
-    @Parameter(label = "Magnification", description = "Magnification of the optical system")
+    @Parameter(label = "Magnification", description = "Optical magnification of the optical system")
     private double mag = 100;
 
-    @Parameter(label = "Pixel size [nm]", description = "Size of the pixel in the camera")
+    @Parameter(label = "Pixel size [nm]", description = "Physical size of the camera's pixel in nanometers")
     private double pixsize = 6500;
 
     @Override

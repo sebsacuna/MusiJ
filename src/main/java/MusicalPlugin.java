@@ -43,7 +43,7 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
 
 @Plugin(type = Command.class,
         menuPath = "Plugins>Musical>Functions>Musical Image",
-        label = "JMusical v0.9 : MUSICAL Image - 2018",
+        label = "JMusical v0.92 : MUSICAL Image - 2018",
         initializer = "updateParameters",
         headless = true)
 public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements Command {
@@ -87,20 +87,17 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
      * Parameters
      */
 
-    @Parameter(label = "Emission [nm]", description = "Wavelength of emission")
+    @Parameter(label = "Emission [nm]", description = "Wavelength of emission in nanometers")
     private double em = 510;
 
     @Parameter(label = "Numerical Aperture", description = "Numerical Aperture of the optical system")
     private double na = 1.49;
 
-    @Parameter(label = "Magnification", description = "Magnification of the optical system")
+    @Parameter(label = "Magnification", description = "Optical magnification of the optical system")
     private double mag = 100;
 
-    @Parameter(label = "Pixel size [nm]", description = "Size of the pixel respect to the real image")
+    @Parameter(label = "Pixel size [nm]", description = "Physical size of the camera's pixel in nanometers")
     private double pixsize = 6500;
-
-    @Parameter(label = "Subpixels per pixel", description = "Number of subpixels to be calculated along one side of each pixel")
-    private int subpixels = 20;
 
     /*
      * MUSICAL PARAMETERS
@@ -112,13 +109,16 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
     @Parameter(label = "Alpha")
     private double alpha = 4;
 
+    @Parameter(label = "Subpixels per pixel", description = "Number of subpixels to be created along one side of each pixel")
+    private int subpixels = 20;
+
     @Parameter(label = "Multithreading")
     private boolean multithreading = false;
 
     @Parameter(label = "Threads (if multithreading)", min = "1")
     private int threads = 1;
 
-    @Parameter(label = "Save image and log")
+    @Parameter(label = "Autosave")
     private boolean save = false;
 
     @Parameter(label = "Output", style = DIRECTORY_STYLE, required = false)
@@ -250,7 +250,7 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
                             ){
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Musical 0.9:\r\n\r\n");
+        sb.append("Musical 0.92:\r\n\r\n");
 
         sb.append("Time:                " + timeStamp.toString()+"\r\n");
 
@@ -267,7 +267,7 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
         sb.append("Alpha:               " + alpha + "\r\n");
         sb.append("Multithreading:      " + multithreading + "\r\n");
         if(multithreading){
-            sb.append("Threads:         " + threads + "\r\n");
+            sb.append("Threads:             " + threads + "\r\n");
         }
 
         return sb.toString();
