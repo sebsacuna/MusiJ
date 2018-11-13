@@ -8,6 +8,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -29,9 +30,9 @@ public class Gmatrix {
      */
 
     public static double[] generateCoordinates(int N_w, double imagePixSize, int subpixels){
-        BigDecimal step = BigDecimal.valueOf(imagePixSize).divide(BigDecimal.valueOf(subpixels));
+        BigDecimal step = BigDecimal.valueOf(imagePixSize).divide(BigDecimal.valueOf(subpixels), 8, RoundingMode.HALF_UP);
         BigDecimal step_half = step.divide(BigDecimal.valueOf(2));
-        BigDecimal side_length_half = BigDecimal.valueOf(N_w).multiply(BigDecimal.valueOf(imagePixSize)).divide(BigDecimal.valueOf(2));
+        BigDecimal side_length_half = BigDecimal.valueOf(N_w).multiply(BigDecimal.valueOf(imagePixSize)).divide(BigDecimal.valueOf(2),8, RoundingMode.HALF_UP);
         BigDecimal shift = step_half.subtract(side_length_half);
         int side_n_pixels = N_w*subpixels;
         double[] x = new double[side_n_pixels];
