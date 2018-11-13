@@ -32,7 +32,7 @@ it [here](https://www.youtube.com/watch?v=CsJHqSQb11E) or by clicking on the ima
 
 [![JMUSICAL VIDEO TUTORIAL](https://i.imgur.com/45ExO8b.png)](https://www.youtube.com/watch?v=CsJHqSQb11E "JMUSICAL VIDEO TUTORIAL")
 
-The data used and parameters can be found in the folder 'data'
+The data used and parameters can be found in the folder `data .
 
 ## How to install
 
