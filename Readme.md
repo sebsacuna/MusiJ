@@ -28,7 +28,7 @@ indicating the parameters used.
 We have released a video tutorial with the instruction of how to install and use MUSICAL in FIJI. You can watch
 it directly on Youtube:
 
-[![JMUSICAL VIDEO TUTORIAL](https://imgur.com/45ExO8b)](https://www.youtube.com/watch?v=CsJHqSQb11E "JMUSICAL VIDEO TUTORIAL")
+[![JMUSICAL VIDEO TUTORIAL](https://i.imgur.com/45ExO8b.png)](https://www.youtube.com/watch?v=CsJHqSQb11E "JMUSICAL VIDEO TUTORIAL")
 
 
 
