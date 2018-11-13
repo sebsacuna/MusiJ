@@ -7,7 +7,7 @@ based on Eigenvalue decomposition.
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
 version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing).
 
-## About JMusical 0.9
+## About JMusical 0.9x
 
 The original Matlab code was analized and optimized to decrease the number of operations. The 
 main differences are:
@@ -22,6 +22,8 @@ The tests show a difference no greater to 1e-4 with the values computed in Matla
 
 The current version allows us to autosave the results in addition with a text file
 indicating the parameters used.
+
+
 
 ## Instructions
 
