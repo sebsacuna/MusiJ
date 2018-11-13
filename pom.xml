@@ -24,7 +24,7 @@
 
     <groupId>uit.nanoscopy</groupId>
     <artifactId>musical</artifactId>
-    <version>0.9</version>
+    <version>0.92</version>
 
     <name>JMusical</name>
     <description>MUSICAL for ImageJ</description>
