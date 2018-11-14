@@ -2,10 +2,22 @@
 
 JMusical is a Plugin for Imagej which implements [MUSICAL](https://arxiv.org/abs/1611.09086), an algorithm
 created by [Krishna Agarwal](https://sites.google.com/site/uthkrishth) for obtaining super-resolution
-based on Eigenvalue decomposition.
+based on Eigenvalue decomposition. This is a list of some of the characteristics of the algorithm.
+
+1.	Compatible with any dye or fluorescent protein in theory. Tested on Alexa dyes, GFP, RFP, YFP, CMP, SirTubulin, SirActin, MitoTracker dyes, etc.
+2.	Compatible with dense or sparse samples and uses natural fluctuations in fluorescent intensity. Tested for cells and tissues without using any imaging buffer (i.e. redox solutions).
+3.	Requires low power in comparison to most techniques, therefore less photo-toxic especially for live cells. 
+4.	Requires very few frames (50 – 200 are sufficient in most cases), therefore suitable for dynamic systems such as live cells.
+5.	Tested on variety of cameras, objective lenses (0.4 NA 20X to 1.49NA 100X oil immersion), and multi-channel acquisition (4 channels so far).
+6.	Works with TIRF and epifluorescence x-y-t image stacks.
+
+This is an example of the algorithm:
+
+[![Example](https://i.imgur.com/aoYdQg6.png)]
 
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
-version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing).
+version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing). 
+
 
 ## About JMusical 0.9x
 
