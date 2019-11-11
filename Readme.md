@@ -20,6 +20,14 @@ This is an example of the algorithm:
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
 version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing). 
 
+## MusiJ 0.93
+
+- Project renamed to MusiJ
+- Faster by a factor of 2 compared to previous version
+- Video wrapper included for video-generating capabilities
+- Progress bar added
+- Image is not padded anymore
+
 ## About MusiJ 0.9x
 
 The original Matlab code was analized and optimized to decrease the number of operations. The 
@@ -36,11 +44,7 @@ The tests show a difference no greater to 1e-4 with the values computed in Matla
 The current version allows us to autosave the results in addition with a text file
 indicating the parameters used.
 
-## MusiJ 0.93
 
-- Project renamed to MusiJ
-- Faster by a factor of 2 compared to previous version
-- Video wrapper included for video-generating capabilities
 
 ## Instructions
 
