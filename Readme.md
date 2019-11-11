@@ -20,7 +20,7 @@ This is an example of the algorithm:
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
 version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing). 
 
-## MusiJ 0.93
+## MusiJ 0.93 (Nov 2019)
 
 - Project renamed to MusiJ
 - Faster by a factor of 2 compared to previous version
