@@ -1,6 +1,8 @@
-# JMusical
+# MusiJ
 
-JMusical is a Plugin for Imagej which implements [MUSICAL](https://arxiv.org/abs/1611.09086), an algorithm
+Note: From November 11 2019, the project has been renamed to MusiJ
+
+MusiJ is a Plugin for Imagej which implements [MUSICAL](https://arxiv.org/abs/1611.09086), an algorithm
 created by [Krishna Agarwal](https://sites.google.com/site/uthkrishth) for obtaining super-resolution
 based on Eigenvalue decomposition. This is a list of some of the characteristics of the algorithm.
 
@@ -18,7 +20,6 @@ This is an example of the algorithm:
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
 version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing). 
 
-
 ## About JMusical 0.9x
 
 The original Matlab code was analized and optimized to decrease the number of operations. The 
@@ -35,6 +36,10 @@ The tests show a difference no greater to 1e-4 with the values computed in Matla
 The current version allows us to autosave the results in addition with a text file
 indicating the parameters used.
 
+## MusiJ 0.93
+
+- Faster by a factor of 2 compared to previous version
+- Video wrapper included for video-generating capabilities
 
 
 ## Instructions
