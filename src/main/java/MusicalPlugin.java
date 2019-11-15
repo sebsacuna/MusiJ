@@ -1,10 +1,7 @@
 import Exceptions.WrongShape;
 import images.ImageReader;
 import io.scif.services.DatasetIOService;
-import linalg.Linalg;
-import musical.GaussianMask;
-import musical.Gmatrix;
-import musical.Musical;
+import musical.*;
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
 import net.imagej.ImageJ;
@@ -12,7 +9,13 @@ import net.imagej.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
+import org.nd4j.config.ND4JEnvironmentVars;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.cpu.nativecpu.blas.CpuBlas;
+import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.nativeblas.NativeOps;
+import org.nd4j.nativeblas.NativeOpsHolder;
+import org.nd4j.nativeblas.Nd4jBlas;
 import org.scijava.ItemIO;
 import org.scijava.app.StatusService;
 import org.scijava.command.Command;
@@ -42,10 +45,9 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
  */
 
 @Plugin(type = Command.class,
-        menuPath = "Plugins>Musical>Functions>Musical Image",
-        label = "JMusical v0.92 : MUSICAL Image - 2018",
-        initializer = "updateParameters",
-        headless = true)
+        headless = true,
+        menuPath = "Plugins>Musical>Functions>Reconstruction",
+        label = Globals.name + " " + Globals.version +": MUSICAL reconstruction")
 public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements Command {
 
     /*
@@ -129,6 +131,17 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
 
     @Override
     public void run(){
+
+        Nd4jBlas nd4jBlas = (Nd4jBlas) Nd4j.factory().blas();
+        nd4jBlas.setMaxThreads(1);
+        NativeOpsHolder instance = NativeOpsHolder.getInstance();
+        NativeOps deviceNativeOps = instance.getDeviceNativeOps();
+        deviceNativeOps.setOmpNumThreads(1);
+
+        System.out.println("Blas          N: " + nd4jBlas.getMaxThreads());
+        System.out.println("Native        N: " + deviceNativeOps.ompGetNumThreads());
+        System.out.println("Native (max)  N: " + deviceNativeOps.ompGetMaxThreads());
+
         //ke = new KeyEvent();
         //this.context().inject(ke);
 
@@ -158,6 +171,8 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
         logService.info("Magnification: " + mag);
         logService.info("Pixel size: " + pixsize + "nm");
         logService.info("Threshold: " + threshold);
+        logService.info("Alpha " + alpha);
+        logService.info("Subpixels: " + subpixels);
         logService.info("Multithreading: " + multithreading);
         if(multithreading){
             logService.info("Threads: " + threads);
@@ -166,24 +181,44 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
         logService.info("Using n_w:  " + n_w);
         int pad = GaussianMask.calculatePadding(n_w);
         INDArray mask = GaussianMask.getMask(n_w);
-        INDArray inputMatrixPadded = Linalg.pad(inputMatrix, pad);
+        //INDArray inputMatrixPadded = Linalg.pad(inputMatrix, pad);
         logService.info("Computing g");
         ss.showStatus("Computing g");
         INDArray gmatrix = Gmatrix.GenerateGMatrix(em, na, n_w, imagePixelSize, subpixels);
         ss.showStatus("Computing MUSICAL image");
         logService.info("Computing MUSICAL image");
 
+        long[] input_shape = inputMatrix.shape();
+        Status s = new Status(0, (int)(input_shape[0] * input_shape[1]));
+
+        /*
+        Thread t1 = new Thread(() -> {
+            while (!s.done) {
+                ss.showStatus(s.progress, s.total, "Working on MUSICAL image...");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    System.out.println("There was an error with the progress bar");
+                }
+            }
+            ss.showStatus(100, 100, "MUSICAL image done");
+        });
+        t1.start();
+        */
+
         long t = System.currentTimeMillis();
         INDArray musical_result;
+
         if(!multithreading) {
-            musical_result = Musical.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, subpixels,(float)threshold,(float)alpha);
+            musical_result = Musical2.WrapperGetMusical(inputMatrix, mask,gmatrix, subpixels,(float)threshold,(float)alpha, s);
+            //musical_result = Musical.WrapperGetMusical(inputMatrix, mask,gmatrix, subpixels,(float)threshold,(float)alpha);
         }
         else {
-            musical_result = Musical.WrapperGetMusical(inputMatrixPadded, mask, gmatrix, subpixels, (float) threshold, (float) alpha, threads);
+            musical_result = Musical2.WrapperGetMusical(inputMatrix, mask, gmatrix, subpixels, (float) threshold, (float) alpha, threads, s);
         }
-
-        musical_result = Linalg.noPadMatrix(musical_result, subpixels * pad);
+        //INDArray outputMatrixPadded = Linalg.pad(inputMatrix, pad * subpixels);
         long tfinal = (System.currentTimeMillis() - t)/1000;
+        s.done = true;
         //System.out.println("Total time: " + tfinal + " seconds.");
         ss.showStatus("MUSICAL done: " + tfinal + " seconds");
         logService.info("MUSICAL done: " + tfinal + " seconds");
@@ -193,7 +228,6 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
         Date currentTime = Calendar.getInstance().getTime();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(currentTime);
         String title = fname[0] + "_musical_100t" + (int)(100*threshold) + "_" + timeStamp;
-        //String title = String.format("%s_musical_t%f_a%f_%s", fname[0],threshold,alpha,timeStamp);
         String titlext = title + ".tiff";
 
         outputImageDataset = datasetService.create(ImageReader.MatrixToImg(musical_result, new UnsignedShortType(),title));
@@ -250,7 +284,7 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
                             ){
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Musical 0.92:\r\n\r\n");
+        sb.append("Musical 0.93:\r\n\r\n");
 
         sb.append("Time:                " + timeStamp.toString()+"\r\n");
 

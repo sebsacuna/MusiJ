@@ -33,7 +33,7 @@ import java.util.List;
 @Plugin(type = Command.class,
         headless = true,
         menuPath = "Plugins>Musical>Functions>Singular Values",
-        label = "JMusical v0.92 : Singular Values - 2018")
+        label = "MusiJ v0.93 : Singular Values - 2019")
 public class SingularPlugin <T extends RealType<T> & NativeType< T >> implements Command {
 
     /*

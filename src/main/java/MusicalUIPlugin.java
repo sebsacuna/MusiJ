@@ -28,11 +28,11 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
 
 @Plugin(type = Command.class,
         initializer = "updateParameters",
-        label = "JMusical v0.92 - 2018",
+        label = "MuseJ v0.93 - 2019",
         headless = true, menuPath = "Plugins>Musical>Musical UI")
 public class MusicalUIPlugin extends InteractiveImageCommand {
 
-    private static final String TITLE_LABEL =   "JMusical v0.92";
+    private static final String TITLE_LABEL =   "JMusical v0.93";
     private static final String CREATOR =       "Krishna Agarwal [uthkrishth@gmail.com]";
     private static final String DEVELOPER =     "Sebastian Acuna [sebacuma@gmail.com]\n";
     private static final String OPTI_LABEL =    "----- Optical parameters ---";
