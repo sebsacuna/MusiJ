@@ -20,6 +20,10 @@ This is an example of the algorithm:
 This plugin works for a single channel image of undefined number of frames,and it is based on author's original Matlab 
 version published [here](https://drive.google.com/file/u/1/d/0B03nGjisITftNGxzeE5feFp1OXM/view?usp=sharing). 
 
+## MusiJ 0.94 (Dec 2019)
+- Nd4J was updated to version 1.0.0-beta6 for compatibility issues with Mac OS Catalina
+- Fixed progress bar not working
+
 ## MusiJ 0.93 (Nov 2019)
 
 - Project renamed to MusiJ
