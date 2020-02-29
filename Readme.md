@@ -1,3 +1,8 @@
+# Note
+The version installed from the repository is 0.94 which works under all platforms. For testing we have used 0.93 which is faster but crashes in MacOS. A copy is available at the following link:
+
+https://drive.google.com/file/d/19vOlRO4pFpE6TU-cRTA2WOVeXcszB8dp/view?usp=sharing
+
 # MusiJ
 
 Note: From November 11 2019, the project has been renamed to MusiJ
