@@ -1,6 +1,5 @@
 package linalg;
 
-import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
@@ -45,7 +44,7 @@ public class SVD {
      */
 
     public static void main(String[] args) {
-        Nd4j.setDataType(DataBuffer.Type.FLOAT);
+        //Nd4j.setDataType(DataBuffer.Type.FLOAT);
         INDArray sample1 = Nd4j.create(new float[][]{{1,2},{3,4}});
 
         printSVD(sample1);

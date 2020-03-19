@@ -28,11 +28,11 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
 
 @Plugin(type = Command.class,
         initializer = "updateParameters",
-        label = "MuseJ v0.93 - 2019",
-        headless = true, menuPath = "Plugins>Musical>Musical UI")
+        label = "MusiJ v0.94 - 2019",
+        headless = true, menuPath = "Plugins>MUSICAL>Musical UI")
 public class MusicalUIPlugin extends InteractiveImageCommand {
 
-    private static final String TITLE_LABEL =   "JMusical v0.93";
+    private static final String TITLE_LABEL =   "JMusical v0.94";
     private static final String CREATOR =       "Krishna Agarwal [uthkrishth@gmail.com]";
     private static final String DEVELOPER =     "Sebastian Acuna [sebacuma@gmail.com]\n";
     private static final String OPTI_LABEL =    "----- Optical parameters ---";
@@ -185,9 +185,9 @@ public class MusicalUIPlugin extends InteractiveImageCommand {
     public void MusicalImageCallback(){
         ss.showStatus("Running MUSICAL Image...");
         cs.run(MusicalPlugin.class, true,
-                        "inputImageDataset", inputImageDataset, "em", em, "na", na, "mag", mag, "pixsize", pixsize,
-                        "subpixels", subpixels, "threshold", threshold, "alpha", alpha, "multithreading", multithreading,
-                        "threads", threads, "save", save, "output", output);
+                "inputImageDataset", inputImageDataset, "em", em, "na", na, "mag", mag, "pixsize", pixsize,
+                "subpixels", subpixels, "threshold", threshold, "alpha", alpha, "multithreading", multithreading,
+                "threads", threads, "save", save, "output", output);
 
     }
 

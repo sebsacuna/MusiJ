@@ -48,10 +48,9 @@ public class Musical2 {
 
         INDArray gm = gmatrix.div(gmatrix.maxNumber().floatValue()).mulColumnVector(mask_flat);
         gm = gm.transpose();
-        INDArray gmmod = gm.mul(gm).sum(1);
-        gmmod.setOrder('f');
         long[] gmatrix_shape = gm.shape();
-
+        INDArray gmmod = Nd4j.create(gmatrix_shape[0],1, 'f');
+        gm.mul(gm).sum(gmmod, 1);
         int rows = (int)(mask_size);
         int cols = (int)input_shape[2];
 
@@ -63,14 +62,13 @@ public class Musical2 {
         // It is faster for some reason to use 'f' order, regardless of the input
         INDArray res = Nd4j.create(gmatrix_shape[0], rows, 'f');
         // Buffers
-        INDArray bufferPS = Nd4j.create(gmatrix_shape[0], 1, 'f');
+        INDArray bufferPS = Nd4j.create(gmatrix_shape[0],1, 'f');
         INDArray bufferPN = Nd4j.create(gmatrix_shape[0], 1, 'f');
 
         SVD svd = new SVD(rows, cols);
 
         INDArray musical_result = Nd4j.zeros(input_shape[0] * subpixels, input_shape[1] * subpixels);
         INDArray musical_count = Nd4j.zeros(input_shape[0] * subpixels, input_shape[1] * subpixels);
-
         // TODO: check order
         for(int i = pad; i < dim0_limit ; i++) {
             for (int j = pad; j < dim1_limit; j++) {
@@ -78,6 +76,7 @@ public class Musical2 {
                         NDArrayIndex.interval(j - pad, j + pad + 1),
                         NDArrayIndex.all());
                 INDArray reshaped_roi = roi.reshape('f', rows, cols);
+                //System.out.println("OK 0");
                 INDArray masked_roi = reshaped_roi.mulColumnVector(mask_flat);
                 INDArray ds = SubpixelWindow(masked_roi, gm, gmmod, res,  bufferPS, bufferPN, svd, rows, msize, threshold10, alpha );
 
@@ -91,7 +90,7 @@ public class Musical2 {
                 musical_result.get(iy, ix).addi(ds);
                 musical_count.get(iy, ix).addi(1);
 
-                //s.progress++;
+                s.progress++;
             }
         }
 
@@ -176,7 +175,6 @@ public class Musical2 {
 
         ExecutorService es = Executors.newFixedThreadPool(cores);
         List<Future<List<INDArray>>> futureList = new ArrayList<>();
-
         for(int i = 0; i < lines_cpu.length() - 1; i++) {
             final int j = i;
             Callable<List<INDArray>> callable = () -> {
@@ -223,7 +221,7 @@ public class Musical2 {
     }
 
     public static INDArray WrapperGetMusical(INDArray input, INDArray mask, INDArray gmatrix, int subpixels, float threshold, float alpha, int cores, Status s){
-;
+        ;
         List<INDArray> results = GetMusicalMatricesThreaded(input, mask, gmatrix, subpixels,threshold,alpha, cores, s);
 
         return(results.get(0).divi(results.get(1)));

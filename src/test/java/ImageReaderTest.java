@@ -24,7 +24,7 @@ public class ImageReaderTest {
 
     @BeforeClass
     public static void SetupClass(){
-        Nd4j.setDataType(DataBuffer.Type.FLOAT);
+        //Nd4j.setDataType(DataBuffer.Type.FLOAT);
         ij = new ImageJ();
     }
 

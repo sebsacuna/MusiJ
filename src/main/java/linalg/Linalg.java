@@ -1,6 +1,7 @@
 package linalg;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.transforms.Pad;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
@@ -22,7 +23,7 @@ public class Linalg {
      */
 
     public static INDArray pad(INDArray input, int pad){
-        INDArray inputMatrixPadded = Nd4j.pad(input, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);
+        INDArray inputMatrixPadded = Nd4j.pad(input, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);
 
         return inputMatrixPadded;
     }

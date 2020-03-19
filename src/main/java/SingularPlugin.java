@@ -32,8 +32,8 @@ import java.util.List;
 
 @Plugin(type = Command.class,
         headless = true,
-        menuPath = "Plugins>Musical>Functions>Singular Values",
-        label = "MusiJ v0.93 : Singular Values - 2019")
+        menuPath = "Plugins>MUSICAL>Functions>Singular Values",
+        label = "MusiJ v0.94 : Singular Values - 2019")
 public class SingularPlugin <T extends RealType<T> & NativeType< T >> implements Command {
 
     /*

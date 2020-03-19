@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.transforms.Pad;
 import org.nd4j.linalg.factory.Nd4j;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class SingularTest {
 
     @BeforeClass
     public static void SetupClass(){
-        Nd4j.setDataType(DataBuffer.Type.FLOAT);
+        //Nd4j.setDataType(DataBuffer.Type.FLOAT);
         ij = new ImageJ();
     }
 
@@ -51,7 +52,7 @@ public class SingularTest {
             fail();
         }
         int pad = GaussianMask.calculatePadding(7);
-        INDArray inputMatrixPadded = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);
+        INDArray inputMatrixPadded = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);
 
         INDArray mask = GaussianMask.getMask(7);
 
@@ -89,7 +90,7 @@ public class SingularTest {
         double imagePixelSize = Gmatrix.calculateImagePixelSize(80,1);
         int n_w = Gmatrix.calculateWindowSize(583, 1.42, imagePixelSize );
         int pad = GaussianMask.calculatePadding(n_w);
-        INDArray inputMatrixPadded = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);
+        INDArray inputMatrixPadded = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);
 
         INDArray mask = GaussianMask.getMask(n_w);
 
@@ -108,21 +109,21 @@ public class SingularTest {
         double delta = 1e-4;
 
         double[] singularvalues0_0 = {2.98019580306311,
-                                    0.123591193600511,
-                                    0.103724212726300,
-                                    0.0820397142141337,
-                                    0.0765393153867630,
-                                    0.0492736796030150,
-                                    0.0425854145222651,
-                                    0.0398663504192242};
+                0.123591193600511,
+                0.103724212726300,
+                0.0820397142141337,
+                0.0765393153867630,
+                0.0492736796030150,
+                0.0425854145222651,
+                0.0398663504192242};
 
         double[] singularvalues23_49 = {4.22878025423293,
-                                    0.135234291905111,
-                                    0.106254603273987,
-                                    0.0972105724999428,
-                                    0.0933519541927444,
-                                    0.0869017598156039,
-                                    0.0841429639703534};
+                0.135234291905111,
+                0.106254603273987,
+                0.0972105724999428,
+                0.0933519541927444,
+                0.0869017598156039,
+                0.0841429639703534};
 
         for(int i = 0; i < singularvalues0_0.length; i++){
             assertEquals(singularvalues0_0[i], s_0_0.getFloat(i), delta * singularvalues0_0[i]);
@@ -133,3 +134,4 @@ public class SingularTest {
         }
     }
 }
+

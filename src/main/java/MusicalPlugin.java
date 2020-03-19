@@ -9,13 +9,7 @@ import net.imagej.ImgPlus;
 import net.imglib2.type.NativeType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.UnsignedShortType;
-import org.nd4j.config.ND4JEnvironmentVars;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.cpu.nativecpu.blas.CpuBlas;
-import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.nativeblas.NativeOps;
-import org.nd4j.nativeblas.NativeOpsHolder;
-import org.nd4j.nativeblas.Nd4jBlas;
 import org.scijava.ItemIO;
 import org.scijava.app.StatusService;
 import org.scijava.command.Command;
@@ -46,8 +40,8 @@ import static org.scijava.widget.FileWidget.DIRECTORY_STYLE;
 
 @Plugin(type = Command.class,
         headless = true,
-        menuPath = "Plugins>Musical>Functions>Reconstruction",
-        label = Globals.name + " " + Globals.version +": MUSICAL reconstruction")
+        menuPath = "Plugins>MUSICAL>Functions>MUSICAL Image",
+        label = "MusiJ v0.94 : MUSICAL Image - 2019")
 public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements Command {
 
     /*
@@ -132,15 +126,15 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
     @Override
     public void run(){
 
-        Nd4jBlas nd4jBlas = (Nd4jBlas) Nd4j.factory().blas();
-        nd4jBlas.setMaxThreads(1);
-        NativeOpsHolder instance = NativeOpsHolder.getInstance();
-        NativeOps deviceNativeOps = instance.getDeviceNativeOps();
-        deviceNativeOps.setOmpNumThreads(1);
+        //Nd4jBlas nd4jBlas = (Nd4jBlas) Nd4j.factory().blas();
+        //nd4jBlas.setMaxThreads(1);
+        //NativeOpsHolder instance = NativeOpsHolder.getInstance();
+        //NativeOps deviceNativeOps = instance.getDeviceNativeOps();
+        //deviceNativeOps.setOmpNumThreads(1);
 
-        System.out.println("Blas          N: " + nd4jBlas.getMaxThreads());
-        System.out.println("Native        N: " + deviceNativeOps.ompGetNumThreads());
-        System.out.println("Native (max)  N: " + deviceNativeOps.ompGetMaxThreads());
+        //System.out.println("Blas          N: " + nd4jBlas.getMaxThreads());
+        //System.out.println("Native        N: " + deviceNativeOps.ompGetNumThreads());
+        //System.out.println("Native (max)  N: " + deviceNativeOps.ompGetMaxThreads());
 
         //ke = new KeyEvent();
         //this.context().inject(ke);
@@ -191,12 +185,11 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
         long[] input_shape = inputMatrix.shape();
         Status s = new Status(0, (int)(input_shape[0] * input_shape[1]));
 
-        /*
         Thread t1 = new Thread(() -> {
             while (!s.done) {
                 ss.showStatus(s.progress, s.total, "Working on MUSICAL image...");
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     System.out.println("There was an error with the progress bar");
                 }
@@ -204,7 +197,6 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
             ss.showStatus(100, 100, "MUSICAL image done");
         });
         t1.start();
-        */
 
         long t = System.currentTimeMillis();
         INDArray musical_result;
@@ -281,10 +273,10 @@ public class MusicalPlugin  <T extends RealType<T> & NativeType< T >> implements
                             double alpha,
                             boolean multithreading,
                             int threads
-                            ){
+    ){
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Musical 0.93:\r\n\r\n");
+        sb.append("Musical 0.94:\r\n\r\n");
 
         sb.append("Time:                " + timeStamp.toString()+"\r\n");
 

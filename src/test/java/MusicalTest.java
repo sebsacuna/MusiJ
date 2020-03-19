@@ -2,9 +2,7 @@ import Exceptions.WrongShape;
 import images.ImageReader;
 import linalg.Linalg;
 import linalg.SVD;
-import musical.GaussianMask;
-import musical.Gmatrix;
-import musical.Musical;
+import musical.*;
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import net.imagej.ImgPlus;
@@ -13,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.transforms.Pad;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 
@@ -29,14 +28,14 @@ public class MusicalTest {
 
     @BeforeClass
     public static void SetupClass(){
-        Nd4j.setDataType(DataBuffer.Type.FLOAT);
+        //Nd4j.setDataType(DataBuffer.Type.FLOAT);
         ij = new ImageJ();
     }
 
     @Test
     public void testSynEx1SubWindo_3_3(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         String path = "src/test/samples/SynEx1.tiff";
         File f = new File(path);
@@ -64,12 +63,14 @@ public class MusicalTest {
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
 
         gmatrix = gmatrix.divi(gmatrix.maxNumber().floatValue()).mulColumnVector(mask_flat);
-
+        INDArray gm = gmatrix.transpose();
+        INDArray gmmod = Nd4j.create(19600, 1);
+        gm.mul(gm).sum(gmmod, 1);
         assertEquals(4.533214126048625e-05, gmatrix.getFloat(0,0), delta * 4.533214126048625e-05);
 
         int pad = 3;
 
-        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);;
+        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);;
         int i = 3 + pad;
         int j = 3 + pad;
         INDArray roi = data.get(NDArrayIndex.interval(i - pad, i + pad + 1),
@@ -85,13 +86,13 @@ public class MusicalTest {
 
         assertEquals(0.001460636891793, masked_roi.getFloat(3, 4), delta * 0.001460636891793);
 
-        INDArray res = Nd4j.create(49, 19600, 'f');
-        INDArray bufferPS = Nd4j.create(1, 19600);
-        INDArray bufferPN = Nd4j.create(1, 19600);
+        INDArray res = Nd4j.create(19600, 49, 'f');
+        INDArray bufferPS = Nd4j.create(19600, 1);
+        INDArray bufferPN = Nd4j.create(19600, 1);
 
         SVD svd = new SVD(49,49);
 
-        INDArray ds = Musical.SubpixelWindow(masked_roi, gmatrix, res, bufferPS,bufferPN, svd, 49, 140, 0.1f, 4);
+        INDArray ds = Musical2.SubpixelWindow(masked_roi, gm, gmmod, res, bufferPS,bufferPN, svd, 49, 140, 0.1f, 4);
 
         INDArray S = svd.getS();
         INDArray U = svd.getU();
@@ -116,7 +117,7 @@ public class MusicalTest {
     @Test
     public void testComplexSample1_4_3(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         String path = "src/test/samples/008_z00000001_c00000001-1.tif";
         File f = new File(path);
@@ -140,8 +141,11 @@ public class MusicalTest {
         INDArray mask_flat = mask.reshape(49, 1);
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
         gmatrix = gmatrix.divi(gmatrix.maxNumber().floatValue()).mulColumnVector(mask_flat);
+        INDArray gm = gmatrix.transpose();
+        INDArray gmmod = Nd4j.create(19600, 1);
+        gm.mul(gm).sum(gmmod, 1);
         int pad = 3;
-        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);;
+        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);;
         int i = 4 + pad;
         int j = 3 + pad;
         INDArray roi = data.get(NDArrayIndex.interval(i - pad, i + pad + 1),
@@ -159,13 +163,13 @@ public class MusicalTest {
 
         INDArray masked_roi = reshaped.mulColumnVector(mask_flat);
 
-        INDArray res = Nd4j.create(49, 19600, 'f');
-        INDArray bufferPS = Nd4j.create(1, 19600);
-        INDArray bufferPN = Nd4j.create(1, 19600);
+        INDArray res = Nd4j.create(19600, 49, 'f');
+        INDArray bufferPS = Nd4j.create(19600, 1);
+        INDArray bufferPN = Nd4j.create(19600, 1);
 
         SVD svd = new SVD(rows,cols);
 
-        INDArray ds = Musical.SubpixelWindow(masked_roi, gmatrix, res, bufferPS,bufferPN, svd, rows, 140, 0.1f, 4);
+        INDArray ds = Musical2.SubpixelWindow(masked_roi, gm, gmmod, res, bufferPS,bufferPN, svd, rows, 140, 0.1f, 4);
 
         INDArray S = svd.getS();
         INDArray U = svd.getU();
@@ -191,7 +195,7 @@ public class MusicalTest {
     @Test
     public void testComplexSample1_22_48(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         String path = "src/test/samples/008_z00000001_c00000001-1.tif";
         File f = new File(path);
@@ -214,8 +218,11 @@ public class MusicalTest {
         INDArray mask_flat = mask.reshape(49, 1);
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
         gmatrix = gmatrix.divi(gmatrix.maxNumber().floatValue()).mulColumnVector(mask_flat);
+        INDArray gm = gmatrix.transpose();
+        INDArray gmmod = Nd4j.create(19600, 1);
+        gm.mul(gm).sum(gmmod, 1);
         int pad = 3;
-        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Nd4j.PadMode.CONSTANT);;
+        INDArray data = Nd4j.pad(inputMatrix, new int[][]{{pad,pad}, {pad,pad}, {0,0}}, Pad.Mode.CONSTANT, 0);;
         int i = 22 + pad;
         int j = 48 + pad;
         INDArray roi = data.get(NDArrayIndex.interval(i - pad, i + pad + 1),
@@ -233,13 +240,13 @@ public class MusicalTest {
 
         INDArray masked_roi = reshaped.mulColumnVector(mask_flat);
 
-        INDArray res = Nd4j.create(49, 19600, 'f');
-        INDArray bufferPS = Nd4j.create(1, 19600);
-        INDArray bufferPN = Nd4j.create(1, 19600);
+        INDArray res = Nd4j.create(19600, 49, 'f');
+        INDArray bufferPS = Nd4j.create(19600, 1);
+        INDArray bufferPN = Nd4j.create(19600, 1);
 
         SVD svd = new SVD(rows,cols);
 
-        INDArray ds = Musical.SubpixelWindow(masked_roi, gmatrix, res, bufferPS,bufferPN, svd, rows, 140, 0.1f, 4);
+        INDArray ds = Musical2.SubpixelWindow(masked_roi, gm, gmmod, res, bufferPS,bufferPN, svd, rows, 140, 0.1f, 4);
 
         INDArray S = svd.getS();
         INDArray U = svd.getU();
@@ -267,7 +274,7 @@ public class MusicalTest {
     @Test
     public void testComplexSample1result(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         String path = "src/test/samples/008_z00000001_c00000001-1.tif";
         File f = new File(path);
@@ -292,16 +299,17 @@ public class MusicalTest {
         INDArray mask = GaussianMask.getMask(7);
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
 
-        INDArray musical_result = Musical.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4);
+        Status s = new Status(0, 100);
+        INDArray musical_result = Musical2.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4, s);
         musical_result = Linalg.noPadMatrix(musical_result, 20 * 3);
-        assertEquals(9.727832055731615e+04, musical_result.getFloat(150, 600), delta * 9.727832055731615e+04);
         assertEquals(8.384156987929458e+03, musical_result.getFloat(530, 499), delta * 8.384156987929458e+03);
+        assertEquals(9.727832055731615e+04, musical_result.getFloat(150, 600), delta * 9.727832055731615e+04);
     }
 
     @Test
     public void testThreadedComplexSample1result(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         String path = "src/test/samples/008_z00000001_c00000001-1.tif";
         File f = new File(path);
@@ -325,8 +333,8 @@ public class MusicalTest {
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
 
         INDArray inputMatrixPadded = Linalg.pad(inputMatrix, 3);
-
-        INDArray musical_result = Musical.WrapperGetMusical(inputMatrixPadded, mask, gmatrix, 20,-1,(float)4, 4);
+        Status s = new Status(0, 100);
+        INDArray musical_result = Musical2.WrapperGetMusical(inputMatrixPadded, mask, gmatrix, 20,-1,(float)4, 4, s);
 
         musical_result = Linalg.noPadMatrix(musical_result, 20 * 3);
         assertEquals(9.727832055731615e+04, musical_result.getFloat(150, 600), delta * 9.727832055731615e+04);
@@ -336,7 +344,7 @@ public class MusicalTest {
     @Test
     public void testThreadEqualitySynEx2(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         //String path = "src/test/samples/SynEx2.tiff";
         String path = "src/test/samples/008_z00000001_c00000001-1.tif";
@@ -361,12 +369,12 @@ public class MusicalTest {
 
         INDArray mask = GaussianMask.getMask(7);
         INDArray gmatrix = Gmatrix.GenerateGMatrix(510, 1.49,7, 0.065f, 20);
-
-        INDArray musical_result_thread = Musical.WrapperGetMusical(inputMatrixPadded, mask, gmatrix, 20,-1,(float)4, 2);
+        Status s = new Status(0, 100);
+        INDArray musical_result_thread = Musical2.WrapperGetMusical(inputMatrixPadded, mask, gmatrix, 20,-1,(float)4, 2, s);
 
         //musical_result_thread = Musical.noPadMatrix(musical_result_thread, 20 * 3);
 
-        INDArray musical_result_single = Musical.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4);
+        INDArray musical_result_single = Musical2.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4, s);
         //musical_result_single = Musical.noPadMatrix(musical_result_single, 20 * 3);
 
         for(int i = 0; i < musical_result_single.shape()[0]; i++){
@@ -390,7 +398,7 @@ public class MusicalTest {
     @Test
     public void testThreadEqualityComplex(){
 
-        double delta = 1e-4;
+        double delta = 1e-3;
 
         //String path = "src/test/samples/SynEx2.tiff";
         String path = "src/test/samples/C3-20180719_H9c2_1_dsRed-mito_KDEL_mC1to2000-20m_T23_1516_m_046C_608nm-1.tif";
@@ -417,7 +425,9 @@ public class MusicalTest {
         double imagePixSize = Gmatrix.calculateImagePixelSize(80,1);
         INDArray gmatrix = Gmatrix.GenerateGMatrix(583, 1.42,7, imagePixSize, 20);
 
-        INDArray musical_result_single = Musical.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4);
+        Status s = new Status(0, 100);
+
+        INDArray musical_result_single = Musical2.WrapperGetMusical(inputMatrixPadded, mask,gmatrix, 20,-1,(float)4, s);
         musical_result_single = Linalg.noPadMatrix(musical_result_single, 20 * 3);
         INDArray sample_column = musical_result_single.get(NDArrayIndex.interval(669,680),NDArrayIndex.point(739));
 
@@ -440,3 +450,4 @@ public class MusicalTest {
         }
     }
 }
+
