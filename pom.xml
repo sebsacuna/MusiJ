@@ -7,32 +7,36 @@
     <parent>
         <groupId>org.scijava</groupId>
         <artifactId>pom-scijava</artifactId>
-        <version>23.3.0-SNAPSHOT</version>
+        <version>28.0.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <properties>
-        <main-class>JMusical</main-class>
+        <main-class>MusiJ</main-class>
         <license.licenseName>Simplified BSD License</license.licenseName>
         <license.copyrightOwners>Krishna Agarwal, Sebastian Acuna</license.copyrightOwners>
         <license.projectName>MUSICAL for ImageJ</license.projectName>
-        <nd4j.version>1.0.0-beta2</nd4j.version>
+        <nd4j.version>1.0.0-beta6</nd4j.version>
         <logback.version>1.1.7</logback.version>
-        <imagej.app.directory>C:\Users\asus\Downloads\fiji-win64\Fiji.app\</imagej.app.directory>
-        <imagej.app.subdirectory>jars\musical</imagej.app.subdirectory>
+        <!--
+        <scijava.app.directory>C:\Users\saacu\Downloads\fiji-win64(1)\Fiji.app\</scijava.app.directory>
+        <scijava.app.subdirectory>jars\</scijava.app.subdirectory>
+        -->
+        <enforcer.skip>true</enforcer.skip>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <groupId>uit.nanoscopy</groupId>
     <artifactId>musical</artifactId>
-    <version>0.92</version>
+    <version>0.94</version>
 
-    <name>JMusical</name>
+    <name>MusiJ</name>
     <description>MUSICAL for ImageJ</description>
-    <url>https://github.com/sebsacuna/JMusical</url>
+    <url>https://github.com/sebsacuna/MusiJ</url>
     <inceptionYear>2018</inceptionYear>
     <organization>
-        <name>uit.nanoscopy</name>
-        <url>https://uit.no/prosjekter/prosjekt?p_document_id=349293</url>
+        <name>3dnanoscopy</name>
+        <url>https://www.3dnanoscopy.com/</url>
     </organization>
 
     <licenses>
@@ -77,14 +81,14 @@
     </mailingLists>
 
     <scm>
-        <connection>scm:git:git://github.com/sebsacuna/jmusical</connection>
-        <developerConnection>scm:git:git@github.com:sebsacuna/jmusical</developerConnection>
+        <connection>scm:git:git://github.com/sebsacuna/musij</connection>
+        <developerConnection>scm:git:git@github.com:sebsacuna/musij</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/sebsacuna/jmusical</url>
+        <url>https://github.com/sebsacuna/musij</url>
     </scm>
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>http://github.com/sebsacuna/jmusical/issues</url>
+        <url>http://github.com/sebsacuna/musij/issues</url>
     </issueManagement>
     <ciManagement>
         <system>None</system>
@@ -101,15 +105,19 @@
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>imagej</artifactId>
+            <version>2.0.0-rc-69</version>
         </dependency>
+
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>imagej-legacy</artifactId>
+            <version>0.35.2</version>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -125,36 +133,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-common</artifactId>
-            <version>${nd4j.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.github.stephenc.findbugs</groupId>
-                    <artifactId>findbugs-annotations</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-native</artifactId>
-            <version>${nd4j.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-x86</artifactId>
-            <version>0.4-rc3.8</version>
-        </dependency>
-        -->
-
     </dependencies>
-
 
 </project>
