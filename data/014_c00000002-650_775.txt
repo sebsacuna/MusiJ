@@ -1,0 +1,4 @@
+Emission [nm]: 525
+Numerical aperture: 1.4
+Magnification: 1
+Pixel size [nm]: 80 
