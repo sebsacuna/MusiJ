@@ -17,7 +17,7 @@
         <license.copyrightOwners>Krishna Agarwal, Sebastian Acuna</license.copyrightOwners>
         <license.projectName>MUSICAL for ImageJ</license.projectName>
         <nd4j.version>1.0.0-beta6</nd4j.version>
-        <logback.version>1.1.7</logback.version>
+        <logback.version>1.2.0</logback.version>
         <!--
         <scijava.app.directory>C:\Users\saacu\Downloads\fiji-win64(1)\Fiji.app\</scijava.app.directory>
         <scijava.app.subdirectory>jars\</scijava.app.subdirectory>
